@@ -17,11 +17,6 @@ constructor(){
 
     }
 }
-componentWillMount(){
-    if(localStorage.email){
-        this.props.history.push('/')
-    }
-}
 componentDidMount(){
     console.log(">>>>>>>>>>>>>>>>>>>>>>." ,  this.props)
 }

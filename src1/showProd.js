@@ -1,18 +1,16 @@
 import React, { Component } from "react";
 import axios from "axios"
-import {connect} from "react-redux"
-import store from "./reduxdemo/store"
 
 // var apiurl = 'https://learningmeanwithashu.herokuapp.com/api/product/' + this.state.productid;
-class ShowProduct extends Component {
+class ShowProd extends Component {
     Addtocart = () => {
-        if(localStorage.email){
+        if(sessionStorage.email){
            var requestObj = {
                productid:this.state.product.productid,
                name:this.state.product.name,
                price:this.state.product.price,
                image:this.state.product.image,
-               email:localStorage.email
+               email:sessionStorage.email
            }
            axios({
                method:'post',
@@ -21,13 +19,7 @@ class ShowProduct extends Component {
            }).then((response)=>{
                console.log("response from add to cart api" , response)
                if(response['data']['data']){
-                   this.props.dispatch({
-                       type:"ADDTOCART",
-                       payload:response["data"]["data"]
-                   })
-                   this.setState({
-                       itemalreadyincart:true
-                   })
+                   alert("Added Successfully")
                }
                else{
                    alert("Some Error Occured")
@@ -45,25 +37,11 @@ class ShowProduct extends Component {
     constructor() {
         super();
         this.state = {
-            product: {},
-            itemalreadyincart:false
+            product: {}
         }
     }
 
-    componentDidMount(){
-
-        store.subscribe(()=>{
-            var storedata = store.getState()["cart"]
-            if(storedata.length>0){
-               storedata.forEach((each) => {
-                   if(each.productid==this.state.product.productid){
-                       this.setState({
-                           itemalreadyincart:true
-                       })
-                   }
-               });
-            }
-        })
+    componentWillMount(){
         
         console.log("this props " , this.props.match.params.id)
         var pid = this.props.match.params.id
@@ -74,17 +52,6 @@ class ShowProduct extends Component {
             this.setState({
                 product:response["data"]["data"]
             })
-            
-        var storedata = store.getState()["cart"]
-        if(storedata.length>0){
-           storedata.forEach((each) => {
-               if(each.productid==this.state.product.productid){
-                   this.setState({
-                       itemalreadyincart:true
-                   })
-               }
-           });
-        }
         })
     }
  
@@ -95,7 +62,7 @@ class ShowProduct extends Component {
                 <div className="col-md-6">
                     {/* {this.state.productid} */}
                     <img src={this.state.product.image} alt="image not avilable" style={{ width: "416px", height: "416px" }} /><br></br>
-                    <button disabled={this.state.itemalreadyincart} onClick={this.Addtocart} className="btn btn-outline-info col-md-5" style={{ padding: "10px" }}>Add to Cart</button>
+                    <button onClick={this.Addtocart} className="btn btn-outline-info col-md-5" style={{ padding: "10px" }}>Add to Cart</button>
                     <button className="btn btn-outline-success col-md-5" style={{ padding: "10px" }} >Buy now</button>
                 </div>
                 <div className="col-md-6">
@@ -137,4 +104,4 @@ class ShowProduct extends Component {
         </div >
     };
 }
-export default connect()(ShowProduct)
+export default ShowProd

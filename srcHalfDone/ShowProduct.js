@@ -50,8 +50,7 @@ class ShowProduct extends Component {
         }
     }
 
-    componentDidMount(){
-
+    componentWillMount(){
         store.subscribe(()=>{
             var storedata = store.getState()["cart"]
             if(storedata.length>0){
@@ -74,17 +73,6 @@ class ShowProduct extends Component {
             this.setState({
                 product:response["data"]["data"]
             })
-            
-        var storedata = store.getState()["cart"]
-        if(storedata.length>0){
-           storedata.forEach((each) => {
-               if(each.productid==this.state.product.productid){
-                   this.setState({
-                       itemalreadyincart:true
-                   })
-               }
-           });
-        }
         })
     }
  

@@ -19,12 +19,6 @@ constructor(){
     }
 }
 
-componentWillMount(){
-    if(localStorage.email){
-        this.props.history.push('/')
-    }
-}
-
 getEmail  = function(event){
     console.log(".... this", this)
     this.user.email = event.target.value
